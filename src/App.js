@@ -8,6 +8,7 @@ import twitterLogo from "./assets/twitter-logo.svg";
 // Constants
 const TWITTER_HANDLE = "_buildspace";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+const CONTRACT_ADDRESS = "0x7a1c4798B3d8e3a28014C913C255F8FDa41F862B";
 // const OPENSEA_LINK = '';
 // const TOTAL_MINT_COUNT = 50;
 
@@ -32,6 +33,7 @@ const App = () => {
     const account = accounts[0];
     console.log(`Found an authorized account: ${account}`);
     setCurrentAccount(account);
+    setupEventLister();
   };
 
   const connectWallet = async () => {
@@ -48,14 +50,42 @@ const App = () => {
 
       console.log(`Connected ${accounts[0]}`);
       setCurrentAccount(accounts[0]);
+      setupEventLister();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setupEventLister = async () => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      }
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        myEpicNft.abi,
+        signer
+      );
+
+      connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
+        console.log(from, tokenId.toNumber());
+        alert(
+          `Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`
+        );
+      });
+
+      console.log("Setup event listener!");
     } catch (error) {
       console.log(error);
     }
   };
 
   const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = "0xc4FBE48A0b2d9559AF3d2462d79E86aD20631844";
-
     try {
       const { ethereum } = window;
       if (!ethereum) {
