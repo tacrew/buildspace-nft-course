@@ -177,7 +177,7 @@ const App = () => {
   useEffect(() => {
     checkIfWalletIsConnected();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentAccount]);
 
   return (
     <div className="h-screen bg-black overflow-scroll text-center">
@@ -216,7 +216,9 @@ const App = () => {
           )}
         </div>
 
-        <div className="mt-2 text-white">{`${currentMintCount} / ${TOTAL_MINT_COUNT} NFTs minted`}</div>
+        {currentMintCount !== null && (
+          <div className="mt-2 text-white">{`${currentMintCount} / ${TOTAL_MINT_COUNT} NFTs minted`}</div>
+        )}
 
         <div className="flex-1 mt-8">
           <a
