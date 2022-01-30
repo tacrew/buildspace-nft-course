@@ -15,6 +15,7 @@ const TOTAL_MINT_COUNT = 50;
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [currentMintCount, setCurrentMintCount] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const hasSoldOut = currentMintCount >= TOTAL_MINT_COUNT;
 
@@ -124,6 +125,7 @@ const App = () => {
   };
 
   const askContractToMintNft = async () => {
+    setIsLoading(true);
     try {
       const { ethereum } = window;
       if (!ethereum) {
@@ -151,6 +153,7 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -179,10 +182,17 @@ const App = () => {
           ) : (
             <button
               onClick={!hasSoldOut && askContractToMintNft}
-              disabled={hasSoldOut}
+              disabled={hasSoldOut || isLoading}
               className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:opacity-75 disabled:from-gray-500 disabled:to-gray-500 disabled:cursor-not-allowed"
             >
-              {hasSoldOut ? "Sold out" : "Mint NFT"}
+              {!isLoading ? (
+                <span>{hasSoldOut ? "Sold out" : "Mint NFT"}</span>
+              ) : (
+                <div className="flex justify-center items-center space-x-4">
+                  <span className="animate-spin h-6 w-6 border-4 border-white-500 rounded-full border-t-transparent" />
+                  <span>minting...</span>
+                </div>
+              )}
             </button>
           )}
         </div>
