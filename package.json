@@ -16,7 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate:tailwind": "npx tailwindcss -i ./src/styles/tailwind-input.css -o ./src/styles/tailwind-output.css --watch"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.18"
   }
 }

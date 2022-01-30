@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
 import myEpicNft from "./utils/MyEpicNFT.json";
-import "./styles/App.css";
 import twitterLogo from "./assets/twitter-logo.svg";
 
 // Constants
 const TWITTER_HANDLE = "tacrew";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x7a1c4798B3d8e3a28014C913C255F8FDa41F862B";
-// const OPENSEA_LINK = '';
+const OPENSEA_LINK = "";
 // const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
@@ -124,43 +123,54 @@ const App = () => {
     }
   };
 
-  // Render Methods
-  const renderNotConnectedContainer = () => (
-    <button
-      onClick={connectWallet}
-      className="cta-button connect-wallet-button"
-    >
-      Connect to Wallet
-    </button>
-  );
-
   useEffect(() => {
     checkIfWalletIsConnected();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="App">
-      <div className="container">
-        <div className="header-container">
-          <p className="header gradient-text">My NFT Collection</p>
-          <p className="sub-text">
-            Each unique. Each beautiful. Discover your NFT today.
-          </p>
+    <div className="h-screen bg-black overflow-scroll text-center">
+      <div className="h-full flex flex-col py-8">
+        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-blue-300">
+          My NFT Collection
+        </h1>
+        <p className="mt-4 text-white text-2xl">
+          Each unique. Each beautiful. Discover your NFT today.
+        </p>
+
+        <div className="mt-8 flex justify-center">
           {!currentAccount ? (
-            renderNotConnectedContainer()
+            <button
+              onClick={connectWallet}
+              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-emerald-300 to-blue-300"
+            >
+              Connect to Wallet
+            </button>
           ) : (
             <button
               onClick={askContractToMintNft}
-              className="cta-button connect-wallet-button"
+              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600"
             >
               Mint NFT
             </button>
           )}
         </div>
-        <div className="footer-container">
-          <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
+
+        <div className="flex-1 mt-8">
           <a
-            className="footer-text"
+            href={OPENSEA_LINK}
+            target="_blank"
+            rel="noreferrer"
+            className="py-2 px-4 font-bold bg-sky-300/90 rounded"
+          >
+            Check NFT Collection at Opensea
+          </a>
+        </div>
+
+        <div className="flex justify-center items-center">
+          <img alt="Twitter Logo" className="w-9 h-9" src={twitterLogo} />
+          <a
+            className="text-white font-bold"
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
