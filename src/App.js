@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import toast, { Toaster } from "react-hot-toast";
 
 import myEpicNft from "./utils/MyEpicNFT.json";
 import twitterLogo from "./assets/twitter-logo.svg";
@@ -9,7 +10,7 @@ const TWITTER_HANDLE = "tacrew";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x0355013b3442d544Dc663107f23d9091575559b5";
 const OPENSEA_LINK =
-  "https://testnets.opensea.io/collection/squarenft-tqr2ecdgsp";
+  "https://testnets.opensea.io/collection/squarenft-kjjv4nppth";
 const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
@@ -90,8 +91,25 @@ const App = () => {
       connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
         console.log(from, tokenId.toNumber());
         setCurrentMintCount(tokenId.toNumber() + 1);
-        alert(
-          `Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`
+        toast(
+          (t) => (
+            <div className="">
+              <div>We've minted your NFT and sent it to your wallet</div>
+              <div>
+                It may be blank right now. It can take a max of 10 min to show
+                up on OpenSea.
+              </div>
+              <a
+                className="text-blue-700 font-bold underline"
+                href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Here's the link
+              </a>
+            </div>
+          ),
+          { duration: 4000 }
         );
       });
 
@@ -163,6 +181,7 @@ const App = () => {
 
   return (
     <div className="h-screen bg-black overflow-scroll text-center">
+      <Toaster />
       <div className="h-full flex flex-col py-8">
         <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-blue-300">
           My NFT Collection

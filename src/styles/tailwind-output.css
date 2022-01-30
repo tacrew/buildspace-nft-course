@@ -757,6 +757,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: transparent;
 }
 
+.text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
+.underline {
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
 .hover\:opacity-75:hover {
   opacity: 0.75;
 }
