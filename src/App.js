@@ -8,7 +8,8 @@ import twitterLogo from "./assets/twitter-logo.svg";
 const TWITTER_HANDLE = "tacrew";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x7a1c4798B3d8e3a28014C913C255F8FDa41F862B";
-const OPENSEA_LINK = "";
+const OPENSEA_LINK =
+  "https://testnets.opensea.io/collection/squarenft-tqr2ecdgsp";
 // const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
@@ -142,14 +143,14 @@ const App = () => {
           {!currentAccount ? (
             <button
               onClick={connectWallet}
-              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-emerald-300 to-blue-300"
+              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-emerald-300 to-blue-300 hover:opacity-75"
             >
               Connect to Wallet
             </button>
           ) : (
             <button
               onClick={askContractToMintNft}
-              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600"
+              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:opacity-75"
             >
               Mint NFT
             </button>
@@ -161,7 +162,7 @@ const App = () => {
             href={OPENSEA_LINK}
             target="_blank"
             rel="noreferrer"
-            className="py-2 px-4 font-bold bg-sky-300/90 rounded"
+            className="py-2 px-4 font-bold bg-sky-300/90 rounded cursor-pointer hover:opacity-75"
           >
             Check NFT Collection at Opensea
           </a>

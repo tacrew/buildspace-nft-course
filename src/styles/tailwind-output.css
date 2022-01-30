@@ -686,3 +686,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-transparent {
   color: transparent;
 }
+
+.hover\:opacity-75:hover {
+  opacity: 0.75;
+}
