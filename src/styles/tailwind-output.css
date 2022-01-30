@@ -508,6 +508,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 2rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -689,4 +693,26 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:opacity-75:hover {
   opacity: 0.75;
+}
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+.disabled\:bg-gray-500:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.disabled\:from-gray-500:disabled {
+  --tw-gradient-from: #6b7280;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(107 114 128 / 0));
+}
+
+.disabled\:to-gray-600:disabled {
+  --tw-gradient-to: #4b5563;
+}
+
+.disabled\:to-gray-500:disabled {
+  --tw-gradient-to: #6b7280;
 }

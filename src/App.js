@@ -7,13 +7,16 @@ import twitterLogo from "./assets/twitter-logo.svg";
 // Constants
 const TWITTER_HANDLE = "tacrew";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const CONTRACT_ADDRESS = "0x7a1c4798B3d8e3a28014C913C255F8FDa41F862B";
+const CONTRACT_ADDRESS = "0x0355013b3442d544Dc663107f23d9091575559b5";
 const OPENSEA_LINK =
   "https://testnets.opensea.io/collection/squarenft-tqr2ecdgsp";
-// const TOTAL_MINT_COUNT = 50;
+const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [currentMintCount, setCurrentMintCount] = useState(null);
+
+  const hasSoldOut = currentMintCount >= TOTAL_MINT_COUNT;
 
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -33,6 +36,7 @@ const App = () => {
     const account = accounts[0];
     console.log(`Found an authorized account: ${account}`);
 
+    // check connected network
     const chainId = await ethereum.request({ method: "eth_chainId" });
     console.log(`Connected to chain ${chainId}`);
 
@@ -42,6 +46,7 @@ const App = () => {
     }
 
     setCurrentAccount(account);
+    await getCurrentMintCount();
     setupEventLister();
   };
 
@@ -83,12 +88,36 @@ const App = () => {
 
       connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
         console.log(from, tokenId.toNumber());
+        setCurrentMintCount(tokenId.toNumber() + 1);
         alert(
           `Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`
         );
       });
 
       console.log("Setup event listener!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCurrentMintCount = async () => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      }
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        myEpicNft.abi,
+        signer
+      );
+
+      const mintCount = await connectedContract.getTotalNFTsMintedSoFar();
+      setCurrentMintCount(mintCount.toNumber());
     } catch (error) {
       console.log(error);
     }
@@ -149,13 +178,16 @@ const App = () => {
             </button>
           ) : (
             <button
-              onClick={askContractToMintNft}
-              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:opacity-75"
+              onClick={!hasSoldOut && askContractToMintNft}
+              disabled={hasSoldOut}
+              className="inline-block py-2 px-6 rounded cursor-pointer font-bold text-white bg-gradient-to-r from-fuchsia-600 to-pink-600 hover:opacity-75 disabled:from-gray-500 disabled:to-gray-500 disabled:cursor-not-allowed"
             >
-              Mint NFT
+              {hasSoldOut ? "Sold out" : "Mint NFT"}
             </button>
           )}
         </div>
+
+        <div className="mt-2 text-white">{`${currentMintCount} / ${TOTAL_MINT_COUNT} NFTs minted`}</div>
 
         <div className="flex-1 mt-8">
           <a
