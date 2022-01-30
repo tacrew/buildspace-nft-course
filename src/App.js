@@ -6,7 +6,7 @@ import myEpicNft from "./utils/MyEpicNFT.json";
 import twitterLogo from "./assets/twitter-logo.svg";
 
 // Constants
-const TWITTER_HANDLE = "tacrew";
+const TWITTER_HANDLE = "tacrew_dev";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x0355013b3442d544Dc663107f23d9091575559b5";
 const OPENSEA_LINK =
