@@ -32,6 +32,15 @@ const App = () => {
 
     const account = accounts[0];
     console.log(`Found an authorized account: ${account}`);
+
+    const chainId = await ethereum.request({ method: "eth_chainId" });
+    console.log(`Connected to chain ${chainId}`);
+
+    const rinkebyChainId = "0x4";
+    if (chainId !== rinkebyChainId) {
+      alert("You are not connected to the Rinkeby Test Network!");
+    }
+
     setCurrentAccount(account);
     setupEventLister();
   };
